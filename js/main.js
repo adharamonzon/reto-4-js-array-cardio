@@ -14,8 +14,6 @@ const inventors = [
   { first: 'Hanna', last: 'Hammarström', year: 1829, passed: 1909 },
 ];
 
-const people = ['Beck, Glenn', 'Becker, Carl', 'Beckett, Samuel', 'Beddoes, Mick', 'Beecher, Henry', 'Beethoven, Ludwig', 'Begin, Menachem', 'Belloc, Hilaire', 'Bellow, Saul', 'Benchley, Robert', 'Benenson, Peter', 'Ben-Gurion, David', 'Benjamin, Walter', 'Benn, Tony', 'Bennington, Chester', 'Benson, Leana', 'Bent, Silas', 'Bentsen, Lloyd', 'Berger, Ric', 'Bergman, Ingmar', 'Berio, Luciano', 'Berle, Milton', 'Berlin, Irving', 'Berne, Eric', 'Bernhard, Sandra', 'Berra, Yogi', 'Berry, Halle', 'Berry, Wendell', 'Bethea, Erin', 'Bevan, Aneurin', 'Bevel, Ken', 'Biden, Joseph', 'Bierce, Ambrose', 'Biko, Steve', 'Billings, Josh', 'Biondo, Frank', 'Birrell, Augustine', 'Black, Elk', 'Blair, Robert', 'Blair, Tony', 'Blake, William'];
-
 //array.prototype.filter()
 //1. filter the list of inventors for those who were born in the 1500's
 
@@ -39,7 +37,7 @@ console.table(orderInventors);
 //array.prototype.reduce()
 //4. how many years did all the inventors life?
 
-//mi manera:
+//manera rustica:
 /* const inventorsAge = inventors.map((inventor) => inventor.passed - inventor.year);
 console.log(inventorsAge);
 
@@ -51,9 +49,9 @@ const totalYears = inventors.reduce((total, inventor) => {
   return total + (inventor.passed - inventor.year);
 }, 0);
 console.log(totalYears);
-//5. sort the inventors by years lived
 
-//mi manera:
+//5. sort the inventors by years lived
+//manera rustica :
 const inventorsAge = inventors.map((inventor) => inventor.passed - inventor.year);
 console.log(inventorsAge);
 
@@ -69,4 +67,36 @@ const oldest = inventors.sort((a, b) => {
 console.log(oldest);
 
 //6. create a list of boulevards in Paris that contain 'de' anywhere in the name
-//https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+//https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris //hacerlo en el devtools
+
+const category = document.querySelector('.mw-category'); //devuelve una lista (node list) esto no se puede mapear proque no es un array //se puede hacer un queryselector de cualquier elemento en el dom, y mirará dentro de ese elemento, no tiene por que ser el document (toda la página)
+const links = category.querySelectorAll('a');
+
+const links = Array.from(category.querySelectorAll('a')); //array.from lo convertirá en un array
+//opción 2: const links = [...categori.querySelectorAll('a)] ...spread
+const de = links.map((link) => link.textContent).filter((streetName) => streetName.includes('de'));
+
+//7. sort Exercise
+//sort de people alphabetically by last name
+const people = ['Beck, Glenn', 'Becker, Carl', 'Beckett, Samuel', 'Beddoes, Mick', 'Beecher, Henry', 'Beethoven, Ludwig', 'Begin, Menachem', 'Belloc, Hilaire', 'Bellow, Saul', 'Benchley, Robert', 'Benenson, Peter', 'Ben-Gurion, David', 'Benjamin, Walter', 'Benn, Tony', 'Bennington, Chester', 'Benson, Leana', 'Bent, Silas', 'Bentsen, Lloyd', 'Berger, Ric', 'Bergman, Ingmar', 'Berio, Luciano', 'Berle, Milton', 'Berlin, Irving', 'Berne, Eric', 'Bernhard, Sandra', 'Berra, Yogi', 'Berry, Halle', 'Berry, Wendell', 'Bethea, Erin', 'Bevan, Aneurin', 'Bevel, Ken', 'Biden, Joseph', 'Bierce, Ambrose', 'Biko, Steve', 'Billings, Josh', 'Biondo, Frank', 'Birrell, Augustine', 'Black, Elk', 'Blair, Robert', 'Blair, Tony', 'Blake, William'];
+
+const peopleSortAlphabetically = people.sort((lastOne, nextOne) => {
+  const [aLast, aFirst] = lastOne.split('. '); //se crea un array donde el primer elemento es el apellido y el 2º el nombre, separado por una , y un espacio = ('. ')
+  const [bLast, bFirst] = nextOne.split('. ');
+  return aLast > bLast ? 1 : -1; //orden alfabético
+});
+console.log(peopleSortAlphabetically);
+
+//8. Reduce exercise
+//sum up the instances of each of these
+
+const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogostick'];
+
+const transportation = data.reduce((obj, item) => {
+  if (!obj[item]) {
+    obj[item] = 0;
+  }
+  obj[item]++;
+  return obj;
+}, {});
+console.log(transportation);
